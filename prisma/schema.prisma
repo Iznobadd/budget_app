@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUMS
+
+enum Currency {
+  EUR
+  USD
+  CHF
+}
+
+
+// MODELS
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  currency Currency @default(EUR)
+  initial_income Int @default(0)
+  Category Category[]
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  emoji String
+  color String @default("#000000")
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  Budget Budget[]
+}
+
+model Budget {
+  id String @id @default(uuid())
+  amount Int
+  start_at DateTime
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id String @id @default(uuid())
+  description String?
+  amount Int
+  type Boolean
+  created_at DateTime @default(now())
+  date DateTime
+  budget Budget @relation(fields: [budgetId], references: [id])
+  budgetId String
+}

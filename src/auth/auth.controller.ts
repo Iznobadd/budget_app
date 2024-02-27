@@ -1,7 +1,15 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from 'src/dto';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { GetUser } from './decorators';
 
 @Controller('auth')
 export class AuthController {
@@ -12,9 +20,14 @@ export class AuthController {
     return this.authService.signup(dto);
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Request() req) {
-    return this.authService.login(req.user);
+  login(@Body() dto: AuthDto) {
+    return this.authService.login(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('protected')
+  protected(@GetUser('email') email: string) {
+    return this.authService.protected(email);
   }
 }

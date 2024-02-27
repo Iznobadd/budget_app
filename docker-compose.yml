@@ -16,5 +16,21 @@ services:
     ports:
       - 8080:8080
 
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    ports:
+      - '4000:4000'
+    environement:
+      DATABASE_HOST: db
+      DATABASE_NAME: budget_app
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+    volumes:
+      - ./api:/app
+    depends_on:
+      - db
+
 volumes:
   pgdata: {}

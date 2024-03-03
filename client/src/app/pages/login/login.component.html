@@ -1,0 +1,31 @@
+<div class="login">
+  <div class="wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h1>Connexion</h1>
+      <div class="input-box">
+        <input
+          type="text"
+          placeholder="Email"
+          formControlName="email"
+          required
+        />
+      </div>
+      <div class="input-box">
+        <input
+          type="password"
+          placeholder="Mot de passe"
+          formControlName="password"
+          required
+        />
+      </div>
+      @if (errorMessage) {
+      <div>{{ errorMessage }}</div>
+      }
+
+      <button type="submit" class="btn">Connexion</button>
+      <div class="register-link">
+        <p>Pas encore de compte ? <a href="#">S'inscrire</a></p>
+      </div>
+    </form>
+  </div>
+</div>

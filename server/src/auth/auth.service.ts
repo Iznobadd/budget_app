@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
@@ -15,6 +19,14 @@ export class AuthService {
 
   async signup(dto: AuthDto) {
     const password = await argon.hash(dto.password);
+    const checkUser = await this.prisma.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    if (checkUser) throw new UnauthorizedException('Cet email existe déjà');
+
     const user = await this.prisma.user.create({
       data: {
         email: dto.email,

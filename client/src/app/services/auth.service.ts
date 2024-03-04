@@ -17,4 +17,12 @@ export class AuthService {
       })
     );
   }
+
+  signUp(userData: UserLogin) {
+    return this.http.post('http://localhost:4000/auth/signup', userData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
+  }
 }

@@ -1,14 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UserLogin } from '../types';
-import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router) {}
+  private http = inject(HttpClient);
+  private router = inject(Router);
 
   signIn(userData: UserLogin) {
     return this.http.post('http://localhost:4000/auth/login', userData).pipe(
@@ -24,5 +25,15 @@ export class AuthService {
         return throwError(() => error);
       })
     );
+  }
+
+  logout() {
+    localStorage.removeItem('access_token');
+    return this.router.navigate(['/login']);
+  }
+
+  getToken() {
+    const token = localStorage.getItem('access_token');
+    return token ? token : null;
   }
 }

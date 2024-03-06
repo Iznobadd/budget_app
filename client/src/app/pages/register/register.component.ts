@@ -33,7 +33,7 @@ export class RegisterComponent {
         if (error.status === 401) this.errorMessage = error.error.message;
         else this.errorMessage = 'Erreur serveur';
       },
-      complete: () => this.router.navigate(['/login']),
+      complete: () => this.router.navigateByUrl('/register/choose'),
     });
   }
 }

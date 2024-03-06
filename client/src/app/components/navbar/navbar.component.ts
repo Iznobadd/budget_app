@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   FaIconLibrary,
   FontAwesomeModule,
@@ -10,6 +10,7 @@ import {
   faChartSimple,
   faLayerGroup,
   faMoneyBillWave,
+  faTableList,
   faWallet,
 } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from 'jwt-decode';
@@ -18,7 +19,7 @@ import { JwtToken } from '../../types';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -33,7 +34,8 @@ export class NavbarComponent implements OnInit {
       faBriefcaseMedical,
       faMoneyBillWave,
       faChartSimple,
-      faCaretUp
+      faCaretUp,
+      faTableList
     );
   }
 

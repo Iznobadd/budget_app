@@ -65,6 +65,7 @@ body {
     }
   }
 }
+
 #nav-bar {
   position: relative;
   height: 100%;
@@ -85,7 +86,6 @@ body {
     border-top: solid 1px $navbar-dark-secondary;
   }
   a {
-    color: inherit;
     text-decoration: inherit;
   }
   input[type="checkbox"] {
@@ -198,6 +198,32 @@ label[for="nav-toggle"] {
     box-shadow: 16px -16px $background;
   }
 }
+.active {
+  position: absolute;
+  width: calc(100% - 16px);
+  height: 54px;
+  background: $background;
+  background-attachment: fixed;
+  border-radius: 16px 0 0 16px;
+
+  color: $navbar-dark-primary !important;
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 16px 16px $background;
+  }
+  &:after {
+    top: 100%;
+    box-shadow: 16px -16px $background;
+  }
+}
+
 .nav-button {
   position: relative;
   margin-left: 16px;

@@ -11,3 +11,16 @@ body {
 body {
   margin: 0;
 }
+
+.double_card {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+}

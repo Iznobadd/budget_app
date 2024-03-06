@@ -6,27 +6,46 @@
     <hr />
   </div>
   <div id="nav-content">
-    <div class="nav-button">
+    <a
+      class="nav-button"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <fa-icon [icon]="['fas', 'money-bill-wave']"></fa-icon
+      ><span>Vue d'ensemble</span>
+    </a>
+    <hr />
+    <a class="nav-button">
       <fa-icon [icon]="['fas', 'money-bill-wave']"></fa-icon
       ><span>Nouvelle transaction</span>
-    </div>
-    <div class="nav-button">
+    </a>
+    <a class="nav-button">
       <fa-icon [icon]="['fas', 'wallet']"></fa-icon
       ><span>Gérer une transaction</span>
-    </div>
-    <div class="nav-button">
+    </a>
+    <a class="nav-button">
       <fa-icon [icon]="['fas', 'layer-group']"></fa-icon
       ><span>Ajouter une catégorie</span>
-    </div>
-    <div class="nav-button">
+    </a>
+    <a class="nav-button">
       <fa-icon [icon]="['fas', 'briefcase-medical']"></fa-icon
       ><span>Ajouter un compte</span>
-    </div>
+    </a>
 
     <hr />
-    <div class="nav-button">
+    <a class="nav-button">
       <fa-icon [icon]="['fas', 'chart-simple']"></fa-icon><span>Graphique</span>
-    </div>
+    </a>
+    <a
+      class="nav-button"
+      routerLink="/categories/list"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <fa-icon [icon]="['fas', 'table-list']"></fa-icon
+      ><span>Liste des catégories</span>
+    </a>
     <div id="nav-content-highlight"></div>
   </div>
   <input id="nav-footer-toggle" type="checkbox" />

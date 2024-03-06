@@ -4,27 +4,43 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { authGuard } from './guards/auth.guard';
 import { ChooseCategoriesComponent } from './pages/choose-categories/choose-categories.component';
+import { ListCategoriesComponent } from './pages/list-categories/list-categories.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'register',
+    canActivateChild: [authGuard],
     children: [
       {
         path: '',
-        component: RegisterComponent,
+        component: HomeComponent,
       },
       {
-        path: 'choose',
-        component: ChooseCategoriesComponent,
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        children: [
+          {
+            path: '',
+            component: RegisterComponent,
+          },
+          {
+            path: 'choose',
+            component: ChooseCategoriesComponent,
+          },
+        ],
+      },
+      {
+        path: 'categories',
+        children: [
+          {
+            path: 'list',
+            component: ListCategoriesComponent,
+            title: 'BudgetApp - Liste des catégories',
+          },
+        ],
       },
     ],
   },

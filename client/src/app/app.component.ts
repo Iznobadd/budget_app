@@ -17,9 +17,7 @@ import { filter } from 'rxjs';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'client';
   router = inject(Router);
-  showSideBar: boolean = true;
   showNavbar: boolean = true;
 
   ngOnInit(): void {

@@ -32,6 +32,12 @@ export class AuthService {
     return this.router.navigate(['/login']);
   }
 
+  isLoggedIn() {
+    const token = this.getToken();
+
+    return token ? true : false;
+  }
+
   getToken() {
     const token = localStorage.getItem('access_token');
     return token ? token : null;

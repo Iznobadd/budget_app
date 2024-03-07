@@ -51,6 +51,14 @@ a:visited {
   background-color: $background_btn;
   padding: 13px 20px;
   border-radius: 10px;
+  &.delete {
+    margin-left: 10px;
+    background-color: $background_danger;
+    svg {
+      margin-right: 0;
+      color: white;
+    }
+  }
   svg {
     margin-right: 10px;
     padding-top: 3px;

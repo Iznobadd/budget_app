@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCategoryDto } from '../dto';
-import { User } from '@prisma/client';
+import { Category, User } from '@prisma/client';
 
 @Injectable()
 export class CategoryService {
@@ -23,7 +23,7 @@ export class CategoryService {
     }
   }
 
-  async listCategories(user: User) {
+  async listCategories(user: User): Promise<Category[]> {
     try {
       const categories = await this.prisma.category.findMany({
         where: {

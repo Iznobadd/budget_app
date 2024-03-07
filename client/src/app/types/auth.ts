@@ -17,3 +17,11 @@ export interface JwtToken {
   iat: number;
   exp: number;
 }
+
+export interface Category {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string;
+  userId: string;
+}

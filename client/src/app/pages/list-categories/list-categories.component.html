@@ -16,24 +16,27 @@
       </tr>
     </thead>
     <tbody>
+      @for (category of categories; track category.id) {
       <tr>
-        <td>1</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>mdo</td>
+        <td>{{ category.name }}</td>
+        <td>{{ category.emoji }}</td>
+        <td
+          [style.background-color]="category.color"
+          [style.color]="isDarkColor(category.color) ? 'white' : 'black'"
+        >
+          {{ category.color }}
+        </td>
+        <td>Construction</td>
+        <td>
+          <a href="" class="btn"
+            ><fa-icon [icon]="['far', 'pen-to-square']"></fa-icon>Éditer</a
+          >
+          <a href="" class="btn delete"
+            ><fa-icon [icon]="['fas', 'trash-can']"></fa-icon
+          ></a>
+        </td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>fat</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>twitter</td>
-      </tr>
+      }
     </tbody>
   </table>
 </div>

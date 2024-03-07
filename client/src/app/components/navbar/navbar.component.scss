@@ -1,16 +1,5 @@
-$background: #9c88ff;
-$navbar-width: 256px;
-$navbar-width-min: 80px;
-$navbar-dark-primary: #18283b;
-$navbar-dark-secondary: #2c3e50;
-$navbar-light-primary: #f5f6fa;
-$navbar-light-secondary: #8392a5;
+@import "../../../assets/scss/variables";
 
-html,
-body {
-  margin: 0;
-  background: var($background);
-}
 #nav-toggle:checked {
   & ~ #nav-header {
     width: calc($navbar-width-min) - 16px;
@@ -177,7 +166,7 @@ label[for="nav-toggle"] {
   top: -54 - 16px;
   width: calc(100% - 16px);
   height: 54px;
-  background: $background;
+  background: $background_btn;
   background-attachment: fixed;
   border-radius: 16px 0 0 16px;
   transition: top 0.2s;
@@ -191,18 +180,18 @@ label[for="nav-toggle"] {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    box-shadow: 16px 16px $background;
+    box-shadow: 16px 16px $background_btn;
   }
   &:after {
     top: 100%;
-    box-shadow: 16px -16px $background;
+    box-shadow: 16px -16px $background_btn;
   }
 }
 .active {
   position: absolute;
   width: calc(100% - 16px);
   height: 54px;
-  background: $background;
+  background: $background_btn;
   background-attachment: fixed;
   border-radius: 16px 0 0 16px;
 
@@ -216,11 +205,11 @@ label[for="nav-toggle"] {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    box-shadow: 16px 16px $background;
+    box-shadow: 16px 16px $background_btn;
   }
   &:after {
     top: 100%;
-    box-shadow: 16px -16px $background;
+    box-shadow: 16px -16px $background_btn;
   }
 }
 

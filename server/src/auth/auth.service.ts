@@ -1,77 +1,42 @@
-import {
-  ForbiddenException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { LoginDto } from './dto/auth.dto';
+import { UserService } from 'src/user/user.service';
 import * as argon from 'argon2';
-import { AuthDto } from '../dto';
-import { PrismaService } from '../prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
-    private jwt: JwtService,
-    private config: ConfigService,
+    private userService: UserService,
+    private jwtService: JwtService,
   ) {}
 
-  async signup(dto: AuthDto) {
-    const password = await argon.hash(dto.password);
-    const checkUser = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
-      },
-    });
+  async login(dto: LoginDto) {
+    const user = await this.validateUser(dto);
 
-    if (checkUser) throw new UnauthorizedException('Cet email existe déjà');
-
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        password,
-      },
-    });
-
-    return user;
-  }
-
-  async login(dto: AuthDto) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
-      },
-    });
-
-    if (!user) throw new ForbiddenException('Identifiants incorrect');
-
-    const passwordMatches = await argon.verify(user.password, dto.password);
-
-    if (!passwordMatches)
-      throw new ForbiddenException('Identifiants incorrect');
-
-    return this.signToken(user.id, user.email);
-  }
-
-  async signToken(
-    userId: string,
-    email: string,
-  ): Promise<{ access_token: string }> {
     const payload = {
-      sub: userId,
-      email,
+      email: user.email,
+      id: user.id,
     };
-
-    const secret = this.config.get('JWT_SECRET');
-
-    const token = await this.jwt.signAsync(payload, {
-      secret,
-      expiresIn: '7d',
-    });
 
     return {
-      access_token: token,
+      user,
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '1h',
+        secret: process.env.JWT_SECRET,
+      }),
     };
+  }
+
+  async validateUser(dto: LoginDto) {
+    const user = await this.userService.findByEmail(dto.email);
+
+    if (user && (await argon.verify(user.password, dto.password))) {
+      const { password, ...result } = user;
+
+      return result;
+    }
+
+    throw new UnauthorizedException('Identifiants invalide');
   }
 }

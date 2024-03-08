@@ -59,6 +59,12 @@ a:visited {
       color: white;
     }
   }
+  &.logout {
+    background-color: $background_danger;
+    color: white;
+    margin-top: 10px;
+    display: inline-block;
+  }
   svg {
     margin-right: 10px;
     padding-top: 3px;

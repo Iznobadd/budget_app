@@ -5,6 +5,7 @@ import {
   FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
 import {
+  faArrowRightFromBracket,
   faBriefcaseMedical,
   faCaretUp,
   faChartSimple,
@@ -15,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from 'jwt-decode';
 import { JwtToken } from '../../types';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,6 +28,7 @@ import { JwtToken } from '../../types';
 export class NavbarComponent implements OnInit {
   router = inject(Router);
   email: string = '';
+  authService = inject(AuthService);
 
   constructor(library: FaIconLibrary) {
     library.addIcons(
@@ -35,7 +38,8 @@ export class NavbarComponent implements OnInit {
       faMoneyBillWave,
       faChartSimple,
       faCaretUp,
-      faTableList
+      faTableList,
+      faArrowRightFromBracket
     );
   }
 
@@ -49,5 +53,9 @@ export class NavbarComponent implements OnInit {
     } else {
       this.router.navigateByUrl('/login');
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

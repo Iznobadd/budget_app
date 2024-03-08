@@ -1,21 +1,16 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { User } from '@prisma/client';
-import { GetUser } from '../auth/decorators';
-import { JwtAuthGuard } from '../auth/guards';
+import { Body, Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { User } from 'src/auth/decorators/user.decorator';
+import { JwtPayload } from 'src/auth/dto/auth.dto';
 
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
-  @UseGuards(JwtAuthGuard)
-  @Get('me')
-  getMe(@GetUser() user: User) {
-    return this.userService.me(user);
-  }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('all')
-  findAll() {
-    return this.userService.listUsers();
+  @UseGuards(JwtGuard)
+  @Get('me')
+  async me(@User() user: JwtPayload) {
+    return await this.userService.me(user);
   }
 }

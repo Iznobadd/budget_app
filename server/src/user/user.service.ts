@@ -1,28 +1,51 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from '@prisma/client';
+import { CreateUserDto } from './dto/user.dto';
+import * as argon from 'argon2';
+import { JwtPayload } from 'src/auth/dto/auth.dto';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async me(user: User) {
-    const me = await this.prisma.user.findUnique({
+  async create(dto: CreateUserDto) {
+    const user = await this.prisma.user.findUnique({
       where: {
-        email: user.email,
+        email: dto.email,
       },
     });
 
-    return me;
+    if (user) throw new ConflictException("L'email existe déjà");
+
+    const newUser = await this.prisma.user.create({
+      data: {
+        ...dto,
+        password: await argon.hash(dto.password),
+      },
+    });
+
+    const { password, ...result } = newUser;
+
+    return result;
   }
 
-  async listUsers() {
-    try {
-      const users = await this.prisma.user.findMany();
+  async findByEmail(email: string) {
+    return await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+  }
 
-      return users;
-    } catch (err) {
-      console.log(err);
-    }
+  async findById(id: string) {
+    return await this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+  async me(user: JwtPayload) {
+    console.log(user);
+    return user;
   }
 }
